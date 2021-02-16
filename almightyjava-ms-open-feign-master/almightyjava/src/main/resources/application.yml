@@ -29,4 +29,18 @@ spring:
 spring:
   profiles: qa 
   datasource:
-    url: jdbc:mysql://localhost:3306/almightyjava?createDatabaseIfNotExist=true      
+    url: jdbc:mysql://localhost:3306/almightyjava?createDatabaseIfNotExist=true
+---
+#hystrix (circuit breaker)
+eureka:
+  client:
+    fetch-registry: false
+feign:
+  hystrix:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        includ: hystrix.stream
+

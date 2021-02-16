@@ -110,6 +110,12 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/simplecaptcha-1.2.jar</systemPath>
 		</dependency>
+
+		<!-- Hystrix Dependency -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+		</dependency>
 	</dependencies>
 	
 	<dependencyManagement>

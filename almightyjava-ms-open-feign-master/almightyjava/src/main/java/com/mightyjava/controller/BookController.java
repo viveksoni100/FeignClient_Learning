@@ -1,7 +1,11 @@
 package com.mightyjava.controller;
 
-import javax.validation.Valid;
-
+import com.mightyjava.config.MessageConfig;
+import com.mightyjava.dto.Book;
+import com.mightyjava.feign.BookFeignClient;
+import com.mightyjava.feign.fallback.handlers.BookFeignClientFallbackHandler;
+import com.mightyjava.utils.ErrorUtils;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,21 +15,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.mightyjava.config.MessageConfig;
-import com.mightyjava.dto.Book;
-import com.mightyjava.feign.BookFeignClient;
-import com.mightyjava.utils.ErrorUtils;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("book")
-public class BookController {
+public class BookController extends BookFeignClientFallbackHandler {
 	
 	@Autowired
 	private BookFeignClient bookFeignClient;
@@ -38,6 +34,7 @@ public class BookController {
 	}
 
 	@GetMapping("/list")
+	@HystrixCommand(fallbackMethod = "bookListFallBack")
 	public String bookList(Model model, Pageable pageable) {
 		model.addAttribute("books", bookFeignClient.bookList().getBody());
 		return "/book/list";
