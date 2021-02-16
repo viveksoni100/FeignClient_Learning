@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author viveksoni100
  */
 
-@FeignClient(value = "eureka-client-2", url = "http://localhost:8002/")
+@FeignClient(value = "${feign.name}", url = "${feign.url}")
 public interface MyFeignClient {
 
     @GetMapping
