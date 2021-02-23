@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableFeignClients
 @EnableCircuitBreaker
 @EnableHystrixDashboard
+@EnableZuulProxy
 public class Application {
 	
 	@Autowired
 	private MyFeignClient myFeignClient;
 
-	@RequestMapping("/")
+	@RequestMapping("/eureka-client-2")
 	public String home() throws JSONException {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("message", "Hello World 2");
